@@ -1,14 +1,14 @@
 package application;
 
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import crawlers.ChillCrawler;
 import model.Actor;
 import model.Film;
@@ -19,17 +19,17 @@ import scrappers.WebScrap;
 @Component
 @EnableScheduling
 @EnableConfigurationProperties
+@EnableAutoConfiguration
 public class CrawlerScheduler {
 	@Autowired
 	ActorRepository actrep;
 	@Autowired(required = false)
 	private FilmRepository filmrep;
 
-	@Bean
+	
 	@Scheduled(fixedDelay = 1200000)
-
 	public void scheduleFixedRateTask() {
-
+		System.out.println("hello am working");
 		String url = "https://123chill.to/movies/";
 		Actor actor = new Actor();
 		actor.setNameActor("Fethi Haddaoui");

@@ -24,7 +24,7 @@ public class Category {
 	private String title;
 
 	@OneToMany(mappedBy = "category")
-	Set<CategoFilm> categofilm;
+	Set<CategoFilm> films;
     
 	public Category(long id,String ti) 
 	{
@@ -47,5 +47,14 @@ public class Category {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public Set<CategoFilm> getFilms() {
+		return films;
+	}
+
+	public void setFilms(Set<CategoFilm> films) {
+		this.films = films;
+	}
+	
 	
 }

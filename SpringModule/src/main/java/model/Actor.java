@@ -25,9 +25,15 @@ public class Actor {
 	private long idActor;
 	private String nameActor;
 
-	@OneToMany(mappedBy = "actRefFilm")
-    Set<ActFilm> actFilm;
+	@OneToMany(mappedBy = "actor")
+    Set<ActFilm> films;
 	
+	public Actor(long id,String name) 
+	{
+		this.idActor=id;
+		this.nameActor=name;
+	}
+	public Actor() {}
 
 	public long getIdActor() {
 		return idActor;
@@ -44,5 +50,13 @@ public class Actor {
 	public void setNameActor(String nameActor) {
 		this.nameActor = nameActor;
 	}
+	public Set<ActFilm> getFilms() {
+		return films;
+	}
+	public void setFilms(Set<ActFilm> films) {
+		this.films = films;
+	}
+	
+
 
 }

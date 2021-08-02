@@ -13,5 +13,11 @@ class ActFilmKey implements Serializable {
 
 	@Column(name = "actor_id")
 	Long actorId;
+	
+	public ActFilmKey(Long actorId,Long filmId ) {
+		this.actorId=actorId;
+		this.filmId=filmId;
+		
+	}
 
 }
