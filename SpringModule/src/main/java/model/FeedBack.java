@@ -16,11 +16,11 @@ public class FeedBack {
     @ManyToOne
     @MapsId("filmId")
     @JoinColumn(name = "film_id")
-    Film filmRefUserInfoRefFB;
+    Film film;
 
     @ManyToOne
     @MapsId("userInfoId")
     @JoinColumn(name = "userInfo_id")
-    UserInfo userInfoRefFilmRefFB;
+    UserInfo userInfo;
 
 }

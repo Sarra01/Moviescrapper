@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +28,7 @@ public class CrawlerScheduler {
 	private FilmRepository filmrep;
 
 	
-	@Scheduled(fixedDelay = 1200000)
+	@Scheduled(fixedDelay = 120)
 	public void scheduleFixedRateTask() {
 		System.out.println("hello am working");
 		String url = "https://123chill.to/movies/";

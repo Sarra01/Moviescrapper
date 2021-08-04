@@ -15,11 +15,11 @@ public class Favourite {
 	@ManyToOne
 	@MapsId("filmId")
 	@JoinColumn(name = "film_id")
-	Film filmRefUserInfoRefFav;
+	Film film;
 
 	@ManyToOne
 	@MapsId("userInfoId")
 	@JoinColumn(name = "userInfo_id")
-	UserInfo userInfoRefFilmRefFav;
+	UserInfo userInfo;
 
 }

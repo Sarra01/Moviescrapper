@@ -39,7 +39,7 @@ public class Film {
 	@OneToMany(mappedBy = "film")
 	Set<Favourite> fav;
 
-	@OneToMany(mappedBy = "filmRefUserInfoRefFB")
+	@OneToMany(mappedBy = "film")
 	Set<FeedBack> fb;
 	
 	 public Set<CategoFilm> getCategories() {

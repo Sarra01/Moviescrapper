@@ -16,8 +16,6 @@ import service.ActorService;
 @RestController
 @RequestMapping("actor")
 
-
-
 @RequiredArgsConstructor
 
 public class ActorController {	
