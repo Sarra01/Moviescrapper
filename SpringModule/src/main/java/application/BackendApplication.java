@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableAutoConfiguration
 @SpringBootApplication
-@ComponentScan("Backend")
+@ComponentScan("CrawlerModule")
 @EntityScan("model")
 @EnableJpaRepositories(basePackages= {"repository"})
 @ComponentScan(basePackages = {"application"})

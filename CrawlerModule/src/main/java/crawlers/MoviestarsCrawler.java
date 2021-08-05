@@ -1,5 +1,6 @@
 package crawlers;
 
+
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -8,37 +9,23 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scrappers.TranslateMovie;
-import scrappers.WebScrap;
 
 public class MoviestarsCrawler {
 
-	private static ArrayList<String> url_list = new ArrayList<String>();
-	private static WebScrap webscrap = new WebScrap();
-	private static WebScrap translatemovie = new WebScrap();
+	private ArrayList<String> urlList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
 
-	public static void main(String[] args) {
-
-		System.out.println("Welcome");
-		String url = "https://moviestars.to/movie/happy-cleaners-24245";
-		ArrayList<String> l = new ArrayList<String>();
-		l.add("https://moviestars.to/");
-		crawl(1, url, l);
-		System.out.println(url_list.size());
-
-	}
-
-	private static void crawl(int level, String url, ArrayList<String> visited) {
-		if (level <= 15) {
+	public void crawl(int level, String url, ArrayList<String> visited) {
+		if ((level <= 15)&&(nameList.size()<5)) {
 
 			Document doc = request(url, visited);
 			if (doc != null) {
 				for (Element link : doc.select("a[href]")) {
-					String next_link = link.absUrl("href");
-					if ((visited.contains(next_link) == false) && (next_link.contains("https://moviestars.to/"))) {
+					String nextLink = link.absUrl("href");
+					if ((visited.contains(nextLink) == false) && (nextLink.contains("https://moviestars.to/"))) {
 						level++;
-						visited.add(next_link);
-						crawl(level, next_link, visited);
+						visited.add(nextLink);
+						crawl(level, nextLink, visited);
 					}
 				}
 
@@ -46,12 +33,32 @@ public class MoviestarsCrawler {
 		}
 	}
 
-	private static Document request(String url, ArrayList<String> v) {
+
+
+	public ArrayList<String> getUrlList() {
+		return urlList;
+	}
+	
+	public void setUrlList(ArrayList<String> urlList) {
+		this.urlList = urlList;
+	}
+
+    public ArrayList<String> getNameList() {
+		return nameList;
+	}
+    
+    public void setNameList(ArrayList<String> nameList) {
+		this.nameList = nameList;
+	}
+
+
+
+	private Document request(String url, ArrayList<String> v) {
 		try {
 			Connection con = Jsoup.connect(url);
 			Document doc = con.get();
 			if (con.response().statusCode() == 200) {
-				if (test_url(url)) {
+				if (testUrl(url)) {
 
 					System.out.println("Link " + url);
 					// url_list.add(url);
@@ -64,9 +71,10 @@ public class MoviestarsCrawler {
 						ch += " ";
 					}
 					String name = ch.substring(0, ch.length() - 1);
-					System.out.println(name);
-					translatemovie.movieTranslation(name, url);
-
+					
+					urlList.add(url);
+					nameList.add(name);
+			
 				}
 				return doc;
 
@@ -77,7 +85,7 @@ public class MoviestarsCrawler {
 		}
 	}
 
-	public static boolean test_url(String url) {
+	public boolean testUrl(String url) {
 		if (url.contains("/genre/"))
 			return false;
 		if (url.contains("/year/"))
@@ -98,12 +106,13 @@ public class MoviestarsCrawler {
 			return false;
 		if (url.contains("disqus.com"))
 			return false;
-		if (url == "https://moviestars.to/")
+		if (url == "https://moviestars.to")
 			return false;
 		if (url == "https://moviestars.to/movies")
 			return false;
 
 		return true;
 	}
+	
 
 }

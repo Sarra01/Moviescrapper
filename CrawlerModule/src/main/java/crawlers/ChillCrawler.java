@@ -1,77 +1,63 @@
 package crawlers;
 
 import java.io.IOException;
-
-
 import java.util.ArrayList;
-
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scrappers.TranslateMovie;
-import scrappers.WebScrap;
 
 public class ChillCrawler {
 
-	private static WebScrap translatemovie = new WebScrap();
-	private static ArrayList<String> url_list = new ArrayList<String>();
-	private static ArrayList<String> name_list = new ArrayList<String>();
 	
+	private ArrayList<String> urlList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
+
 	
-	public static ArrayList<String> getName_list() {
-		return name_list;
-	}
 
-	public static void setName_list(ArrayList<String> name_list) {
-		ChillCrawler.name_list = name_list;
-	}
-
-	private static WebScrap webscrap = new WebScrap();
-/*
-	public static void main(String[] args) {
-
+	/*public void main(String[] args) {
 		System.out.println("Welcome");
 		String url = "https://123chill.to/21-bridges-watch-online/";
-
 		crawl(1, url, new ArrayList<String>());
 		// System.out.println(url_list.size());
-	}
-*/
+	}*/
 
-
-	public ArrayList<String> getUrl_list() {
-		return url_list;
+	public ArrayList<String> getUrlList() {
+		return urlList;
 	}
 
-	public  void setUrl_list(ArrayList<String> url_list) {
-		ChillCrawler.url_list = url_list;
+	public void setUrlList(ArrayList<String> urlList) {
+		this.urlList = urlList;
 	}
 
-	public  WebScrap getWebscrap() {
-		return webscrap;
+	public ArrayList<String> getNameList() {
+		return nameList;
 	}
 
-	public void setWebscrap(WebScrap webscrap) {
-		ChillCrawler.webscrap = webscrap;
+	public void setNameList(ArrayList<String> nameList) {
+		this.nameList = nameList;
 	}
 
 	public void crawl(int level, String url, ArrayList<String> visited) {
-		if (level <= 15) {
+		if ((level <= 15)&&(nameList.size()<15)) {
 
 			Document doc = request(url, visited);
 			if (doc != null) {
 				for (Element link : doc.select("a[href]")) {
-					String next_link = link.absUrl("href");
-					if ((visited.contains(next_link) == false) && (next_link.contains("https://123chill.to/"))) {
+					String nextLink = link.absUrl("href");
+					if ((visited.contains(nextLink) == false) && (nextLink.contains("https://123chill.to/"))) {
 						level++;
-						visited.add(next_link);
-						crawl(level, next_link, visited);
+						visited.add(nextLink);
+						crawl(level, nextLink, visited);
+						
+
 					}
 				}
 
 			}
 		}
+		
+
 	}
 
 	private Document request(String url, ArrayList<String> v) {
@@ -79,7 +65,11 @@ public class ChillCrawler {
 			Connection con = Jsoup.connect(url);
 			Document doc = con.get();
 			if (con.response().statusCode() == 200) {
-				if (test_url(url)) {
+				if (testUrl(url)) {
+					
+					System.out.println(nameList.size());
+					System.out.println(urlList.size());
+					
 					System.out.println("Link " + url);
 					String name = url.substring(20, url.length() - 1).replace("-", " ");
 					name = name.replace("watch", "");
@@ -90,8 +80,8 @@ public class ChillCrawler {
 					}
 					System.out.println("--------------------------------");
 					System.out.println(name);
-
-					translatemovie.movieTranslation(name, url);
+					urlList.add(url);
+					nameList.add(name);
 
 				}
 				return doc;
@@ -103,7 +93,7 @@ public class ChillCrawler {
 		}
 	}
 
-	public boolean test_url(String url) {
+	public static boolean testUrl(String url) {
 		if (url.contains("?action="))
 			return false;
 		if (url.contains("/genre/"))
@@ -115,6 +105,8 @@ public class ChillCrawler {
 		if (url.contains("/director/"))
 			return false;
 		if (url == "https://123chill.to/")
+			return false;
+		if (url .contains("charlotte-moon-mysteries-green-on-the-greens"))
 			return false;
 
 		return true;

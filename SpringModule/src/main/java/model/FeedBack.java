@@ -11,16 +11,16 @@ import javax.persistence.MapsId;
 public class FeedBack {
 
 	@EmbeddedId
-	feedBackKey id;
+	FeedBackKey id;
 
     @ManyToOne
     @MapsId("filmId")
     @JoinColumn(name = "film_id")
-    Film film;
+    Film filmRefUserInfoRefFB;
 
     @ManyToOne
     @MapsId("userInfoId")
     @JoinColumn(name = "userInfo_id")
-    UserInfo userInfo;
+    UserInfo userInfoRefFilmRefFB;
 
 }

@@ -31,6 +31,7 @@ public class Admin {
 		this.email=em;
 		this.password=pass;
 	}
+	public Admin() {}
 
 	public long getIdAdmin() {
 		return idAdmin;

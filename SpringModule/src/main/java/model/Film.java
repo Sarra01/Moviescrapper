@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,148 +24,152 @@ public class Film {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Film_seq")
 	@SequenceGenerator(name = "Film_seq", sequenceName = "Film_seq")
+	
 	private long idFilm;
 	private String nameFilm;
 	private String linkPapystreaming = "";
-	private int idCategory;
-	private int year;
-	private String language;
-	private int numberRate;
-	private int currentRate;
+	private String linkChill = "";
+	private String linkMoviestars = "";
+	private String linkPrimeware = "";
+	private String year;
+	private String numberRate;
+	private String currentRate;
+	
+	
+	@ManyToMany
+    @JoinTable(name = "actfilm", joinColumns =  @JoinColumn(name = "id_film"), inverseJoinColumns = @JoinColumn(name = "id_actor"))
+	private Set<Actor> actors = new HashSet<>();
+	
 
-	@OneToMany(mappedBy = "film")
-	Set<CategoFilm> categories;
+	@ManyToMany
+    @JoinTable(name = "catfilm", joinColumns =  @JoinColumn(name = "id_film"), inverseJoinColumns = @JoinColumn(name = "id_category"))
+	private Set<Category> categories = new HashSet<>();
 
-	@OneToMany(mappedBy = "film")
-	Set<ActFilm> actors;
 
-	@OneToMany(mappedBy = "film")
+	@ManyToMany
+	@JoinTable(name = "langfilm", joinColumns =  @JoinColumn(name = "id_film"), inverseJoinColumns = @JoinColumn(name = "id_language"))
+	private Set<Language> languages = new HashSet<>();
+	
+
+	@OneToMany(mappedBy = "filmRefUserInfoRefFav")
 	Set<Favourite> fav;
 
-	@OneToMany(mappedBy = "film")
+	@OneToMany(mappedBy = "filmRefUserInfoRefFB")
 	Set<FeedBack> fb;
+
+	public long getIdFilm() {
+		return idFilm;
+	}
+
+	public void setIdFilm(long idFilm) {
+		this.idFilm = idFilm;
+	}
+
+	public String getNameFilm() {
+		return nameFilm;
+	}
+
+	public void setNameFilm(String nameFilm) {
+		this.nameFilm = nameFilm;
+	}
+
+	public String getLinkPapystreaming() {
+		return linkPapystreaming;
+	}
+
+	public void setLinkPapystreaming(String linkPapystreaming) {
+		this.linkPapystreaming = linkPapystreaming;
+	}
+
+	public String getLinkChill() {
+		return linkChill;
+	}
+
+	public void setLinkChill(String linkChill) {
+		this.linkChill = linkChill;
+	}
+
+	public String getLinkMoviestars() {
+		return linkMoviestars;
+	}
+
+	public void setLinkMoviestars(String linkMoviestars) {
+		this.linkMoviestars = linkMoviestars;
+	}
+
+	public String getLinkPrimeware() {
+		return linkPrimeware;
+	}
+
+	public void setLinkPrimeware(String linkPrimeware) {
+		this.linkPrimeware = linkPrimeware;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getNumberRate() {
+		return numberRate;
+	}
+
+	public void setNumberRate(String numberRate) {
+		this.numberRate = numberRate;
+	}
+
+	public String getCurrentRate() {
+		return currentRate;
+	}
+
+	public void setCurrentRate(String currentRate) {
+		this.currentRate = currentRate;
+	}
+
+	public Set<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(Set<Actor> actors) {
+		this.actors = actors;
+	}
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+
+	public Set<Language> getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(Set<Language> languages) {
+		this.languages = languages;
+	}
+
+	public Set<Favourite> getFav() {
+		return fav;
+	}
+
+	public void setFav(Set<Favourite> fav) {
+		this.fav = fav;
+	}
+
+	public Set<FeedBack> getFb() {
+		return fb;
+	}
+
+	public void setFb(Set<FeedBack> fb) {
+		this.fb = fb;
+	}
 	
-	 public Set<CategoFilm> getCategories() {
-			return categories;
-		}
-
-		public void setCategories(Set<CategoFilm> categories) {
-			this.categories = categories;
-		}
-
-		public Set<ActFilm> getActors() {
-			return actors;
-		}
-
-		public void setActors(Set<ActFilm> actors) {
-			this.actors = actors;
-		}
-
-		public void addCategory(Category category) {
-	        CategoFilm categoFilm = new CategoFilm(this, category);
-	        categories.add(categoFilm);
-	        category.getFilms().add(categoFilm);
-	    }
-	 
-	    public void removeCategory(Category category) {
-	        for (Iterator<CategoFilm> iterator = categories.iterator();
-	             iterator.hasNext(); ) {
-	            CategoFilm categoFilm = iterator.next();
-	 
-	            if (categoFilm.getFilm().equals(this) &&
-	                    categoFilm.getCategory().equals(category)) {
-	                iterator.remove();
-	                categoFilm.getCategory().getFilms().remove(categoFilm);
-	                categoFilm.setFilm(null);
-	                categoFilm.setCategory(null);
-	            }
-	        }
-	    }
-		public void addActor(Actor actor) {
-	        ActFilm actFilm = new ActFilm(actor, this);
-	        actors.add(actFilm);
-	        actor.getFilms().add(actFilm);
-	    }
-	 
-	    public void removeActor(Actor actor) {
-	        for (Iterator<ActFilm> iterator = actors.iterator();
-	             iterator.hasNext(); ) {
-	            ActFilm actFilm = iterator.next();
-	 
-	            if (actFilm.getFilm().equals(this) &&
-	                    actFilm.getActor().equals(actor)) {
-	                iterator.remove();
-	                actFilm.getActor().getFilms().remove(actFilm);
-	                actFilm.setFilm(null);
-	                actFilm.setActor(null);
-	            }
-	        }
-	    }
-		
-
-
-		public long getIdFilm() {
-			return idFilm;
-		}
-
-		public void setIdFilm(long idFilm) {
-			this.idFilm = idFilm;
-		}
-
-		public String getNameFilm() {
-			return nameFilm;
-		}
-
-		public void setNameFilm(String nameFilm) {
-			this.nameFilm = nameFilm;
-		}
-
-		public String getLinkPapystreaming() {
-			return linkPapystreaming;
-		}
-
-		public void setLinkPapystreaming(String linkPapystreaming) {
-			this.linkPapystreaming = linkPapystreaming;
-		}
-
-		public int getIdCategory() {
-			return idCategory;
-		}
-
-		public void setIdCategory(int idCategory) {
-			this.idCategory = idCategory;
-		}
-
-		public int getYear() {
-			return year;
-		}
-
-		public void setYear(int year) {
-			this.year = year;
-		}
-
-		public String getLanguage() {
-			return language;
-		}
-
-		public void setLanguage(String language) {
-			this.language = language;
-		}
-
-		public int getNumberRate() {
-			return numberRate;
-		}
-
-		public void setNumberRate(int numberRate) {
-			this.numberRate = numberRate;
-		}
-
-		public int getCurrentRate() {
-			return currentRate;
-		}
-
-		public void setCurrentRate(int currentRate) {
-			this.currentRate = currentRate;
-		}
-
+	
+	
+	
 }

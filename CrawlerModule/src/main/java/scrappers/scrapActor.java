@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 
-public class scrapActor {
+public class ScrapActor {
 	public static void main(String[] args) {
 		String actorname = "Janet McTeer";
 		ArrayList<String> actorInfo = scrape(actorname);

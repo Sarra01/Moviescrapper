@@ -1,42 +1,29 @@
 package crawlers;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scrappers.TranslateMovie;
-import scrappers.WebScrap;
 
 public class PrimewireCrawler {
 
-	private static ArrayList<String> url_list = new ArrayList<String>();
-	private static WebScrap webscrap = new WebScrap();
-	private static WebScrap translatemovie = new WebScrap();
+	private ArrayList<String> urlList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Welcome");
-		String url = "https://primewire.es/movie/dark-web-1rx3w";
-		crawl(1, url, new ArrayList<String>());
 
-		System.out.println(url_list.size());
-
-	}
-
-	private static void crawl(int level, String url, ArrayList<String> visited) {
+	private void crawl(int level, String url, ArrayList<String> visited) {
 		if (level <= 15) {
 
 			Document doc = request(url, visited);
 			if (doc != null) {
 				for (Element link : doc.select("a[href]")) {
-					String next_link = link.absUrl("href");
-					if ((visited.contains(next_link) == false) && (next_link.contains("https://primewire.es/movie/"))) {
+					String nextLink = link.absUrl("href");
+					if ((visited.contains(nextLink) == false) && (nextLink.contains("https://primewire.es/movie/"))) {
 						level++;
-						visited.add(next_link);
-						crawl(level, next_link, visited);
+						visited.add(nextLink);
+						crawl(level, nextLink, visited);
 					}
 				}
 
@@ -44,17 +31,16 @@ public class PrimewireCrawler {
 		}
 	}
 
-	private static Document request(String url, ArrayList<String> v) {
+	private Document request(String url, ArrayList<String> v) {
 		try {
 			Connection con = Jsoup.connect(url);
 			Document doc = con.get();
 			if (con.response().statusCode() == 200) {
-				if (test_url(url)) {
+				if (testUrl(url)) {
 
 					System.out.println("----------------------");
 					System.out.println("Link " + url);
-					url_list.add(url);
-					// System.out.println(url_list.size());
+					urlList.add(url);
 
 					String[] t = url.substring(27).split("-");
 					String ch = "";
@@ -64,8 +50,8 @@ public class PrimewireCrawler {
 					}
 					String name = ch.substring(0, ch.length() - 1);
 
-					System.out.println(name);
-					translatemovie.movieTranslation(name, url);
+					urlList.add(url);
+					nameList.add(name);
 
 				}
 				return doc;
@@ -77,7 +63,7 @@ public class PrimewireCrawler {
 		}
 	}
 
-	public static boolean test_url(String url) {
+	public boolean testUrl(String url) {
 		if (url.contains("/star/"))
 			return false;
 		if (url.contains("/tag/"))
@@ -91,5 +77,22 @@ public class PrimewireCrawler {
 
 		return true;
 	}
+
+	public ArrayList<String> getUrlList() {
+		return urlList;
+	}
+
+	public void setUrlList(ArrayList<String> urlList) {
+		this.urlList = urlList;
+	}
+
+	public ArrayList<String> getNameList() {
+		return nameList;
+	}
+
+	public void setNameList(ArrayList<String> nameList) {
+		this.nameList = nameList;
+	}
+	
 
 }

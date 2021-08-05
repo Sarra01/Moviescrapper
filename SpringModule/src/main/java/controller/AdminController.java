@@ -23,24 +23,24 @@ public class AdminController {
 	AdminService adminService;
 
 	@GetMapping("/getall")
-	private List<Admin> getAdmin()
+	public List<Admin> getAdmin()
 
 	{
 		return adminService.getAll();
 	}
 
 	@GetMapping("/get/{id}")
-	private Admin getAdmin(@PathVariable("id)") Long id) {
+	public Admin getAdmin(@PathVariable("id)") Long id) {
 		return adminService.getAdminById(id);
 	}
 
 	@DeleteMapping("delete/{id}")
-	private void deleteAdmin(@PathVariable("id") Long id) {
+	public void deleteAdmin(@PathVariable("id") Long id) {
 		adminService.deleteAdmin(id);
 	}
 
 	@PostMapping("/add")
-	private void addAdmin(@RequestBody Admin admin) {
+	public void addAdmin(@RequestBody Admin admin) {
 		adminService.addAdmin(admin);
 	}
 

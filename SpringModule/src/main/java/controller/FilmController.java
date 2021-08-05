@@ -45,6 +45,11 @@ public class FilmController {
 		return filmService.get(id);
 	}
 	
+	@GetMapping("/getname/{name}")
+	public Film getFilmName(@PathVariable("name") String name){
+		return filmService.findByName(name);
+	}
+	
 	@DeleteMapping("/delete/{id}")
 	public void delete(@PathVariable("id") long id) {
 		filmService.delete(id);

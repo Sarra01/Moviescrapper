@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-class favouriteKey implements Serializable {
+class FavouriteKey implements Serializable {
 
 	@Column(name = "film_id")
 	Long filmId;

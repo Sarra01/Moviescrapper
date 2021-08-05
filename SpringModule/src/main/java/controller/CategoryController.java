@@ -24,22 +24,22 @@ public class CategoryController {
 	CategoryService categoryService;
 
 	@GetMapping("/getall")
-	private List<Category> getCategory() {
+	public List<Category> getCategory() {
 		return categoryService.getAllCategory();
 	}
 
 	@GetMapping("/get/{id}")
-	private Category getCategory(@PathVariable("id)") Long id) {
+	public Category getCategory(@PathVariable("id)") Long id) {
 		return categoryService.getCategoryById(id);
 	}
 
 	@DeleteMapping("delete/{id}")
-	private void deleteCategory(@PathVariable("id") Long id) {
+	public void deleteCategory(@PathVariable("id") Long id) {
 		categoryService.deleteCategory(id);
 	}
 
 	@PostMapping("/add")
-	private void addCategory(@RequestBody Category category) {
+	public void addCategory(@RequestBody Category category) {
 		categoryService.addCategory(category);
 	}
 

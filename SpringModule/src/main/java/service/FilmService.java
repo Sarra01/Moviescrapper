@@ -1,13 +1,9 @@
 package service;
 
 import java.util.List;
-
-
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import model.Film;
 import repository.FilmRepository;
 
@@ -33,5 +29,8 @@ public class FilmService {
 	public Film add(Film film) {
 		return filmRepository.save(film);
 	}
+	public Film findByName(String name){
+		return filmRepository.findByNameFilm(name);
+	} 
 
 }

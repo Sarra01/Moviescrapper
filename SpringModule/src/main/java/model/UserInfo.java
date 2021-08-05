@@ -24,10 +24,10 @@ public class UserInfo {
 	private String password;
 	private String phonenumber;
 
-	@OneToMany(mappedBy = "userInfo")
+	@OneToMany(mappedBy = "userInfoRefFilmRefFav")
 	Set<Favourite> fav;
 
-	@OneToMany(mappedBy = "userInfo")
+	@OneToMany(mappedBy = "userInfoRefFilmRefFB")
 	Set<FeedBack> fb;
     
 	public UserInfo(long id,String name,String em,String pass,String phn) 

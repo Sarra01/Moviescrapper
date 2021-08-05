@@ -26,22 +26,22 @@ public class UserInfoController {
 	UserInfoService userService;
 
 	@GetMapping("/getall")
-	private List<UserInfo> getAllUserInfo() {
+	public List<UserInfo> getAllUserInfo() {
 		return userService.getAllUserInfo();
 	}
 
 	@GetMapping("/get/{id}")
-	private UserInfo getUser(@PathVariable("id)") Long userid) {
+	public UserInfo getUser(@PathVariable("id)") Long userid) {
 		return userService.getUserById(userid);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	private void deleteUser(@PathVariable("id") Long userid) {
+	public void deleteUser(@PathVariable("id") Long userid) {
 		userService.deleteUser(userid);
 	}
 
 	@PostMapping("/add")
-	private void addUser(@RequestBody UserInfo user) {
+	public void addUser(@RequestBody UserInfo user) {
 		userService.addUser(user);
 	}
 

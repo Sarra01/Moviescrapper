@@ -1,15 +1,14 @@
 package model;
 
 import javax.persistence.Entity;
+
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.util.Set;
 import lombok.Data;
 
 @Data
@@ -23,8 +22,6 @@ public class Category {
 	private long idCategory;
 	private String title;
 
-	@OneToMany(mappedBy = "category")
-	Set<CategoFilm> films;
     
 	public Category(long id,String ti) 
 	{
@@ -32,29 +29,30 @@ public class Category {
 		this.title=ti;
 	}
 
+
+	public Category() {
+	}
+
+
 	public long getIdCategory() {
 		return idCategory;
 	}
+
 
 	public void setIdCategory(long idCategory) {
 		this.idCategory = idCategory;
 	}
 
+
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public Set<CategoFilm> getFilms() {
-		return films;
-	}
-
-	public void setFilms(Set<CategoFilm> films) {
-		this.films = films;
-	}
+    
 	
 	
 }

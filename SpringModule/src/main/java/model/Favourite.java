@@ -10,16 +10,16 @@ import javax.persistence.MapsId;
 public class Favourite {
 
 	@EmbeddedId
-	favouriteKey id;
+	FavouriteKey id;
 
 	@ManyToOne
 	@MapsId("filmId")
 	@JoinColumn(name = "film_id")
-	Film film;
+	Film filmRefUserInfoRefFav;
 
 	@ManyToOne
 	@MapsId("userInfoId")
 	@JoinColumn(name = "userInfo_id")
-	UserInfo userInfo;
+	UserInfo userInfoRefFilmRefFav;
 
 }

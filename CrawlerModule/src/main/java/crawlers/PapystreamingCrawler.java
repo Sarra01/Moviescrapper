@@ -2,43 +2,32 @@ package crawlers;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scrappers.TranslateMovie;
-import scrappers.WebScrap;
 
 public class PapystreamingCrawler {
 
-	private static ArrayList<String> url_list = new ArrayList<String>();
-	private static WebScrap webscrap = new WebScrap();
-	private static WebScrap translatemovie = new WebScrap();
+	private ArrayList<String> urlList = new ArrayList<String>();
+	private ArrayList<String> nameList = new ArrayList<String>();
 
-	public static void main(String[] args) {
 
-		System.out.println("Welcome");
-		String url = "https://vvw.papystreaming.stream/avant-toi/";
-
-		crawl(1, url, new ArrayList<String>());
-		// System.out.println(url_list.size());
-
-	}
-
-	private static void crawl(int level, String url, ArrayList<String> visited) {
+	private void crawl(int level, String url, ArrayList<String> visited) {
 		if (level <= 15) {
 
 			Document doc = request(url, visited);
 			if (doc != null) {
 				for (Element link : doc.select("a[href]")) {
-					String next_link = link.absUrl("href");
-					if ((visited.contains(next_link) == false)
-							&& (next_link.contains("https://vvw.papystreaming.stream/"))) {
+					String nextLink = link.absUrl("href");
+					if ((visited.contains(nextLink) == false)
+							&& (nextLink.contains("https://vvw.papystreaming.stream/"))) {
 						level++;
-						visited.add(next_link);
-						crawl(level, next_link, visited);
+						visited.add(nextLink);
+						crawl(level, nextLink, visited);
 					}
 				}
 
@@ -46,20 +35,21 @@ public class PapystreamingCrawler {
 		}
 	}
 
-	private static Document request(String url, ArrayList<String> v) {
+	private Document request(String url, ArrayList<String> v) {
 		try {
 			Connection con = Jsoup.connect(url);
 			Document doc = con.get();
 			if (con.response().statusCode() == 200) {
-				if (test_url(url)) {
-					// System.out.println("Link " + url);
+				if (testUrl(url)) {
+
 					String name = url.substring(33, url.length() - 1).replace("-", " ");
 
 					System.out.println("--------------------------------");
 					System.out.println(name);
-					translatemovie.movieTranslation(name, url);
-					// url_list.add(url);
-					// System.out.println(url_list.size());
+
+					urlList.add(url);
+					nameList.add(name);
+			
 				}
 				return doc;
 
@@ -70,7 +60,7 @@ public class PapystreamingCrawler {
 		}
 	}
 
-	public static boolean test_url(String url) {
+	public boolean testUrl(String url) {
 		if (url.contains("/cat/"))
 			return false;
 		if (url.contains("/voirseries/"))
@@ -86,5 +76,22 @@ public class PapystreamingCrawler {
 
 		return true;
 	}
+
+	public ArrayList<String> getUrlList() {
+		return urlList;
+	}
+
+	public void setUrlList(ArrayList<String> urlList) {
+		this.urlList = urlList;
+	}
+
+	public ArrayList<String> getNameList() {
+		return nameList;
+	}
+
+	public void setNameList(ArrayList<String> nameList) {
+		this.nameList = nameList;
+	}
+	
 
 }
